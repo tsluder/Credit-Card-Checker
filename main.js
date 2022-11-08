@@ -40,12 +40,94 @@ const batch = [
 
 // Add your functions below:
 
-const validateCred = (arr) => {
-  arr.reverse();
-  for (let i = 0; i < arr.length; i++) {}
-  if (sumMod === 0) {
-    return true;
-  } else {
-    return false;
-  }
-};
+//Convert Credit Card string number in an array
+function convertCreditCard(creditCardString){
+    let newArrayNumber = [];
+    for (let i = 0; i < creditCardString.length; i++){
+        newArrayNumber.push(Number(creditCardString[i]));
+        
+
+    }
+    //console.log(newArrayNumber);
+    return newArrayNumber;
+}
+
+
+
+// Validates the Credit Card
+function validateCred(arrayToCheck){
+    arrayToCheck.reverse();
+    let sumNumbers = 0;
+    for (let i = 0; i < arrayToCheck.length; i++){
+        if (i % 2 == 0){
+            sumNumbers += arrayToCheck[i] 
+        } else{
+            sumNumbers += calcNumber(arrayToCheck[i])
+        }
+    }
+    arrayToCheck.reverse();
+    if (sumNumbers % 10 === 0){
+        return true;
+    } 
+    
+}
+//Helper function for validateCred function 
+function calcNumber(numberToBeChecked){
+    let result = undefined;
+    result = numberToBeChecked * 2;
+    if (result > 9){
+        result = result - 9;
+        return result;
+    }else{
+        return result;
+    }
+}
+
+
+
+//list invalid credit cards
+function findInvalidCards(creditCardNumbers){
+    let invalidCreditCards = [];
+    for (let i = 0; i < creditCardNumbers.length; i++){
+        if (!validateCred(creditCardNumbers[i])){
+            invalidCreditCards.push(creditCardNumbers[i]);
+        }
+    }
+    return invalidCreditCards;
+
+}
+// Check whitch companies issued the defected cards 
+function idInvalidCardCompanies(creditCard){
+    let companiesWithInvalidCards = [];
+    for (let i = 0; i < creditCard.length; i++){
+        switch (creditCard[i][0]){
+            case 3:
+                if (!companiesWithInvalidCards.includes('Amex (American Express')){
+                    companiesWithInvalidCards.push('Amex (American Express');
+                };
+                
+            case 4:
+                if (!companiesWithInvalidCards.includes('Visa')){
+                companiesWithInvalidCards.push('Visa');
+                }
+            case 5:
+                if (!companiesWithInvalidCards.includes('Mastercard')){
+                companiesWithInvalidCards.push('Mastercard');
+                }
+            case 6:
+                if (!companiesWithInvalidCards.includes('Discover')){
+                companiesWithInvalidCards.push('Discover');
+                }
+            default:
+                if (!companiesWithInvalidCards.includes('Company not found')){
+                companiesWithInvalidCards.push('Company not found');
+                }
+        }
+            
+    }
+    return console.log(companiesWithInvalidCards);
+}
+
+idInvalidCardCompanies(findInvalidCards(batch));
+
+console.log(validateCred(convertCreditCard('4024007162486608')));
